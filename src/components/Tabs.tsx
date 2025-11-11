@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import type { Tab as TabType } from '../types/Tab';
 
+
 interface Props {
   tabs: TabType[];
   activeTabId?: string;
@@ -19,6 +20,7 @@ export const Tabs: React.FC<Props> = ({ tabs, activeTabId }) => (
         >
           <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
         </li>
+       
       ))}
     </ul>
   </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import type { Tab as TabType } from '../types/Tab';
 import { Tabs } from '../components/Tabs';
 
@@ -18,6 +18,7 @@ export const TabsPage: React.FC = () => {
       <h1 className="title">Tabs page</h1>
 
       <Tabs tabs={tabs} activeTabId={tabId} />
+      <Outlet />
 
       <div className="block" data-cy="TabContent">
         {activeTab ? activeTab.content : 'Please select a tab'}
