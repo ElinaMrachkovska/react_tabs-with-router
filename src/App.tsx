@@ -1,55 +1,52 @@
+import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
-
+import { Link, useLocation, Routes, Route, Navigate } from 'react-router-dom';
 import cn from 'classnames';
-import { NavLink } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HomePage } from './components/HomePage';
-import { NotFound } from './components/NotFound';
 import { TabsPage } from './components/TabsPage';
+import { NotFound } from './components/NotFound';
 
+export const App = () => {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  const isTabs = location.pathname.startsWith('/tabs');
 
-
-export const getActiveNavClass = ({ isActive }: { isActive: boolean }) => {
-  return cn('navbar-item', { 'is-active': isActive });
-};
-
-export const App: React.FC = () => {
   return (
     <>
+      {/* Also requires <html class="has-navbar-fixed-top"> */}
       <nav
         className="navbar is-light is-fixed-top is-mobile has-shadow"
         data-cy="Nav"
       >
         <div className="container">
           <div className="navbar-brand">
-            <NavLink to="/" className={getActiveNavClass}>
+            <Link to="/" className={cn('navbar-item', { 'is-active': isHome })}>
               Home
-            </NavLink>
-            <NavLink to="/tabs" className={getActiveNavClass}>
+            </Link>
+            <Link
+              to="/tabs"
+              className={cn('navbar-item', { 'is-active': isTabs })}
+                  >
               Tabs
-            </NavLink>
+            </Link>
           </div>
-        </div>
+            </div>
       </nav>
 
       <div className="section">
         <div className="container">
-             <Router>
-            <Routes>
-              <Route path="/" element={<App />} >
-                <Route index element={<HomePage />} />
-                <Route path="tabs">
-                  <Route index element={<TabsPage />} />
-                  <Route path=":tabId" element={<TabsPage />} />
-                </Route>
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-          </Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="home" element={<Navigate to="/" replace />} />
+            <Route path="tabs">
+              <Route index element={<TabsPage />} />
+              <Route path=":tabId" element={<TabsPage />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </div>
       </div>
     </>
   );
 };
-
